@@ -1,0 +1,41 @@
+import cv2
+from pyzbar.pyzbar import decode
+import numpy as np
+
+# Inicializujte kamery
+cap = cv2.VideoCapture(0)
+
+# Premenná na sledovanie, či má začať skenovať QR kódy
+start_scanning = False
+
+while True:
+    ret, frame = cap.read()
+
+    decoded_objects = decode(frame)
+
+    if start_scanning:
+        for obj in decoded_objects:
+            print('Typ: ', obj.type)
+            print('Obsah: ', obj.data.decode('utf-8'))
+
+            if obj.type == 'QRCODE':
+                points = obj.polygon
+                points = np.array(points, dtype=np.int32)
+                cv2.polylines(frame, [points], True, (0, 255, 0), 2)
+
+                # Po nájdení prvého QR kódu ukončiť skenovanie
+                start_scanning = False
+
+    cv2.imshow("QR Code Scanner", frame)
+
+    key = cv2.waitKey(1) & 0xFF
+    if key == ord('q'):
+        cap.release()
+        cv2.destroyAllWindows()
+        exit()
+    elif key == ord('s'):
+        start_scanning = True
+
+# Uvoľnite zdroje
+cap.release()
+cv2.destroyAllWindows()
