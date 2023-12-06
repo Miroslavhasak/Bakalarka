@@ -27,7 +27,10 @@ except FileNotFoundError:
 while True:
     ret, frame = cap.read()
 
-    decoded_objects = decode(frame)
+    # Prevod na čiernobiele
+    gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+
+    decoded_objects = decode(gray_frame)
 
     if start_scanning:
         for obj in decoded_objects:
@@ -42,7 +45,7 @@ while True:
                 # Získejte šířku QR kódu v pixelech
                 qr_width_px = abs(points[0][0] - points[1][0])
 
-                # Vypočítejte vzdálenost od kamery k QR kódu s kalibračnými parametrami
+                # Vypočítejte vzdálenost od kamery k QR kódu s kalibračními parametry
                 undistorted_points = cv2.undistortPoints(np.array([[[points[0][0], points[0][1]]]], dtype=np.float32), camera_matrix, distortion_coefficients)
                 distance = (qr_code_width_cm * camera_matrix[0, 0]) / qr_width_px
 
@@ -51,7 +54,7 @@ while True:
                 # Po nalezení prvního QR kódu ukončit skenování
                 start_scanning = False
 
-    cv2.imshow("QR Code Scanner", frame)
+    cv2.imshow("QR Code Scanner", gray_frame)  # Zde by měl být zobrazen černobílý snímek
 
     key = cv2.waitKey(1) & 0xFF
     if key == ord('q'):
