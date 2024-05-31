@@ -13,7 +13,7 @@ qr_code_width_cm = 18.7  # Upravte na skutečné rozměry QR kódu
 camera_width = 2688
 camera_height = 1520
 
-# Načítanie kalibračných parametrov
+# Načítání kalibračních parametrů
 try:
     with open("calibration.pkl", "rb") as f:
         camera_matrix, distortion_coefficients = pickle.load(f)
@@ -48,7 +48,6 @@ while True:
             qr_width_px = abs(points[0][0] - points[1][0])
 
             # Vypočítejte vzdálenost od kamery k QR kódu s kalibračními parametry
-            undistorted_points = cv2.undistortPoints(np.array([[[points[0][0], points[0][1]]]], dtype=np.float32), camera_matrix, distortion_coefficients)
             distance = (qr_code_width_cm * camera_matrix[0, 0]) / qr_width_px
 
             # Vypočítejte horizontálny a vertikálny uhol vzhľadom na stred obrazu
@@ -56,13 +55,13 @@ while True:
             vertical_angle = np.degrees(np.arctan2((points[0][1] + points[3][1]) / 2 - camera_height / 2, camera_matrix[1, 1]))
 
             # Zobrazi vzdialenost vedla obrysu
-            cv2.putText(frame, f'Vzdialenost: {2 * distance:.2f} cm', (points[0][0], points[0][1] + 120), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 1, cv2.LINE_AA)
+            cv2.putText(frame, f'Vzdialenost: {2 * distance:.0f} cm', (points[0][0], points[0][1] + 120), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 1, cv2.LINE_AA)
 
             # Zobrazi horizontálny uhol vedla obrysu
-            cv2.putText(frame, f'Horizontalny uhol: {47 + horizontal_angle:.2f} stupnov', (points[0][0], points[0][1] + 160), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 1, cv2.LINE_AA)
+            cv2.putText(frame, f'Horizontalny uhol: {int(47 + horizontal_angle)} stupnov', (points[0][0], points[0][1] + 160), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 1, cv2.LINE_AA)
 
             # Zobrazi vertikálny uhol vedla obrysu
-            cv2.putText(frame, f'Vertikalny uhol: {50 + vertical_angle:.2f} stupnov', (points[0][0], points[0][1] + 180), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 1, cv2.LINE_AA)
+            cv2.putText(frame, f'Vertikalny uhol: {int(50 + vertical_angle)} stupnov', (points[0][0], points[0][1] + 180), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 1, cv2.LINE_AA)
 
     cv2.imshow("QR Code Scanner", frame)  # Zde by měl být zobrazen upravený snímek
 
