@@ -43,15 +43,15 @@ while True:
             horizontal_angle = np.degrees(np.arctan2((points[0][0] + points[1][0]) / 2 - camera_width / 2, camera_matrix[0, 0]))
             vertical_angle = np.degrees(np.arctan2((points[0][1] + points[3][1]) / 2 - camera_height / 2, camera_matrix[1, 1]))
 
-            print(f'Vzdialenost: {2 * distance:.0f} cm')
-            print(f'Horizontalny uhol: {int(47 + horizontal_angle)} stupnov')
-            print(f'Vertikalny uhol: {int(50 + vertical_angle)} stupnov')
+            print(f'Vzdialenost: {2 * distance:.2f} cm')
+            print(f'Horizontalny uhol: {47 + horizontal_angle:.2f} stupnov')
+            print(f'Vertikalny uhol: {50 + vertical_angle:.2f} stupnov')
 
             cv2.putText(frame, f'Vzdialenost: {2 * distance:.0f} cm', (points[0][0], points[0][1] + 120), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 1, cv2.LINE_AA)
 
-            cv2.putText(frame, f'Horizontalny uhol: {int(47 + horizontal_angle)} stupnov', (points[0][0], points[0][1] + 160), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 1, cv2.LINE_AA)
+            cv2.putText(frame, f'Horizontalny uhol: {47 + horizontal_angle:.2f} stupnov', (points[0][0], points[0][1] + 160), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 1, cv2.LINE_AA)
 
-            cv2.putText(frame, f'Vertikalny uhol: {int(50 + vertical_angle)} stupnov', (points[0][0], points[0][1] + 180), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 1, cv2.LINE_AA)
+            cv2.putText(frame, f'Vertikalny uhol: {50 + vertical_angle:.2f} stupnov', (points[0][0], points[0][1] + 180), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 1, cv2.LINE_AA)
 
     cv2.imshow("QR Code Scanner", frame)  
 
