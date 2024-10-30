@@ -1,0 +1,1 @@
+V tejto praci som nacital QR kod pomocou kamery a nasledne pomocou programu zistil vzdialenost a uhol QR kodu od kamery. Pomocou tychto rozmerov a dalsich rovnic som ziskal suradnice kamery v priestore.
